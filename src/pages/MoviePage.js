@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import "../assets/styles/MoviePage.css";
 import Header from '../components/Header';
+import { FaPlay } from 'react-icons/fa'; // Бібліотека для значків
 
 import { useParams } from 'react-router-dom';
 
-const MoviePage = ({ moviesData }) => {
+
+const MoviePage = ({ film }) => {
   const [trailerVisible, setTrailerVisible] = useState(false);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(1);
 
-  const { id } = useParams();
-  const film = moviesData && moviesData.find(movie => movie.id === parseInt(id));
+  // const { id } = useParams();
+  // const film = moviesData && moviesData.find(movie => movie.id === parseInt(id));
 
   const handleTrailerClick = () => {
     setTrailerVisible(true);
@@ -28,29 +30,19 @@ const MoviePage = ({ moviesData }) => {
     <>
       <Header />
       <Container fluid className="p-0">
-        <div
-          className="banner"
-          style={{ backgroundImage: `url(${film.banner})` }}
-        >
-          <Button variant="primary" className="banner-button" onClick={handleTrailerClick}>
-            Play Trailer
-          </Button>
-        </div>
-
-        <div>
-          <div style={{backgroundImage: `url("https://www.kinolumiere.com/uploads/films/1715342874_1sh2S5J7bTPu6LuOgS9gamkGs2J_(1).jpg")` 
-          
-    }}>
-      <iframe id="video-2" width="100%" height="500vh" data-src="https://www.youtube.com/embed/-KrtC5eFIho?si=b1ckPJgwjvDqpBuW" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-      </iframe>
+        {!trailerVisible && (
+          <div
+            className="banner"
+            style={{ backgroundImage: `url(${film.banner})` }}
+          >
+            <Button variant="primary" className="banner-button" onClick={handleTrailerClick}>
+              <FaPlay />
+            </Button>
           </div>
-        </div>
-
-        <iframe id="video-2" width="100%" height="100vh" data-src="https://www.youtube.com/embed/-KrtC5eFIho?si=b1ckPJgwjvDqpBuW" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-        </iframe>
+        )}
         {trailerVisible && (
           <div className="embed-responsive embed-responsive-16by9 my-4">
-            <iframe 
+            <iframe
               className="embed-responsive-item"
               src={film.trailerUrl}
               allowFullScreen

@@ -11,6 +11,10 @@ import MoviePage from "./pages/MoviePage";
 
 import img4 from './assets/images/image5.webp';
 import img6 from './assets/images/image6.png';
+
+import { useParams } from "react-router-dom";
+
+
 const moviesList = [
   {
     id: 1,
@@ -149,9 +153,10 @@ function App() {
         }} /> */}
 
 
-        <Route path="/movies/:id" element={<MoviePage moviesData={films}/>} />
+        <Route path="/movies/:id" element={<MoviePageWrapper/>} />
 
-
+        {/* const { id } = useParams();
+        const film = moviesData && moviesData.find(movie => movie.id === parseInt(id)); */}
 
 
 
@@ -161,6 +166,17 @@ function App() {
 
     </Router>
   );
+}
+
+function MoviePageWrapper() {
+  // Access the id parameter from the URL
+  let { id } = useParams();
+
+  // Find the film object with the matching id
+  const film = films.find(film => film.id === parseInt(id));
+
+  // Render the MoviePage component with the found film object
+  return <MoviePage film={film} />;
 }
 
 export default App;
